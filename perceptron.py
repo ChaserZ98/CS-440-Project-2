@@ -1,6 +1,4 @@
-import inspect
 import random
-
 import util
 
 
@@ -27,11 +25,11 @@ class PerceptronClassifier:
             # print(self.weights[label])
 
         for iteration in range(self.maxIteration):
-            print("Starting iteration ", iteration, "...")
+            print("Starting iteration %d..." % iteration, end="")
             i = 0
             allPassFlag = True
             while i < len(trainingData):
-                print("\tChecking Data %d..." % i, end="")
+                # print("\tChecking Data %d..." % i, end="")
                 result = {}
                 for label in self.legalLabels:
                     result[label] = self.weights[label] * trainingData[i] + self.weights[label][0]
@@ -39,39 +37,33 @@ class PerceptronClassifier:
                 isUpdate = False
                 for key, value in result.items():
                     if value >= 0 and key != int(trainingLabels[i]):
-                        if isUpdate is False:
-                            print("\033[1;33mError!\033[0m")
-                        print("\t\tUpdating weight %s..." % key, end="")
+                        # if isUpdate is False:
+                        #     print("\033[1;31mError!\033[0m")
+                        # print("\t\tUpdating weight %s..." % key, end="")
                         isUpdate = True
                         self.weights[key] = self.weights[key] - trainingData[i]
                         self.weights[key][0] = self.weights[key][0] + learningRate
                     elif value < 0 and key == int(trainingLabels[i]):
-                        if isUpdate is False:
-                            print("\033[1;33mError!\033[0m")
-                        print("\t\tUpdating weight %s..." % key, end="")
+                        # if isUpdate is False:
+                        #     print("\033[1;31mError!\033[0m")
+                        # print("\t\tUpdating weight %s..." % key, end="")
                         isUpdate = True
                         self.weights[key] = self.weights[key] + trainingData[i]
                         self.weights[key][0] = self.weights[key][0] - learningRate
                 if isUpdate is True:
                     allPassFlag = False
-                    print("%s" % result)
+                    # print("%s" % result)
                     continue
-                else:
-                    print("\033[1;32mPass!\033[0m %s" % result)
+                # else:
+                #     print("\033[1;32mPass!\033[0m %s" % result)
                 i += 1
             # print(self.weights)
             if allPassFlag is True:
-                print("\n\033[1;32mAll training data pass without any updates!\033[0m")
+                # print("\n\033[1;32mAll training data pass without any updates!\033[0m")
                 # print(self.weights)
+                print("\033[1;32mDone!\033[0m")
                 break
-        # validationResult = self.classify(validationData)
-        # print(validationResult)
-        # print(len(validationResult))
-        # correctNum = 0
-        # for i in range(len(validationResult)):
-        #     if validationResult[i] == int(validationLabels[i]):
-        #         correctNum += 1
-        # print("Validation Accuracy: %.2f%%" % ((correctNum/len(validationLabels))*100))
+            print("\033[1;32mDone!\033[0m")
 
     def classify(self, data):
         guesses = []
