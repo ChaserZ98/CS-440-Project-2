@@ -2,8 +2,10 @@ import naiveBayes
 import perceptron
 import numpy as np
 import util
+import os
 import sys
 import random
+import time
 
 DIGIT_PIC_WIDTH = 28
 DIGIT_PIC_HEIGHT = 28
@@ -12,7 +14,7 @@ FACE_PIC_HEIGHT = 70
 
 
 def basicFeatureExtractionDigit(pic: util.Picture):
-    a = pic.getPixels()
+    # a = pic.getPixels()
 
     features = util.Counter()
 
@@ -26,7 +28,7 @@ def basicFeatureExtractionDigit(pic: util.Picture):
 
 
 def basicFeatureExtractionFace(pic: util.Picture):
-    a = pic.getPixels()
+    # a = pic.getPixels()
 
     features = util.Counter()
 
@@ -45,108 +47,155 @@ if __name__ == '__main__':
     legalLabels = range(10)
     # dataType = "face"
     # legalLabels = range(2)
-    TRAINING_DATA_USAGE = 0.1
+    TRAINING_DATA_USAGE_SET = [round(i*0.1, 1) for i in range(1, 11)]
     MAX_ITERATIONS = 10
 
-    # w = util.Counter()
-    # x = util.Counter()
-    # w[0] = 1
-    # w[1] = 2
-    # w[2] = 3
-    # x[1] = 1
-    # x[2] = 2
-    # print(x)
-    # print(w)
-    # print(w*x + w[0])
-    # exit()
+    if os.path.exists('result') is False:
+        os.mkdir('result')
+    if os.path.exists('result/%s' % dataType) is False:
+        os.mkdir('result/%s' % dataType)
+    resultStatisticFilePath = "result/%s/StatisticData.txt" % dataType
+    resultWeightsFilePath = "result/%s/WeightsData.txt" % dataType
+    resultWeightsGraphFilePath = "result/%s/WeightGraph.txt" % dataType
+    if os.path.exists(resultStatisticFilePath):
+        os.remove(resultStatisticFilePath)
+    if os.path.exists(resultWeightsFilePath):
+        os.remove(resultWeightsFilePath)
+    if os.path.exists(resultWeightsGraphFilePath):
+        os.remove(resultWeightsGraphFilePath)
 
     classifier = perceptron.PerceptronClassifier(legalLabels, MAX_ITERATIONS)
-    print(classifier.weights)
+    # print(classifier.weights)
+    for TRAINING_DATA_USAGE in TRAINING_DATA_USAGE_SET:
+        if dataType == "digit":
+            TRAINING_SET_SIZE = int(
+                len(open("data/%sdata/traininglabels" % dataType, "r").readlines()) * TRAINING_DATA_USAGE)
+            VALIDATION_SET_SIZE = int(len(open("data/%sdata/validationlabels" % dataType, "r").readlines()))
+            TEST_SET_SIZE = int(len(open("data/%sdata/testlabels" % dataType, "r").readlines()))
+            print("Training Data Usage: %.1f" % (TRAINING_DATA_USAGE * 100))
+            print("Training Set Size: %d" % TRAINING_SET_SIZE)
+            print("Validation Set Size: %d" % VALIDATION_SET_SIZE)
+            print("Test Set Size: %d" % TEST_SET_SIZE)
 
-    if dataType == "digit":
-        TRAINING_SET_SIZE = int(
-            len(open("data/%sdata/traininglabels" % dataType, "r").readlines()) * TRAINING_DATA_USAGE)
-        VALIDATION_SET_SIZE = int(len(open("data/%sdata/validationlabels" % dataType, "r").readlines()))
-        TEST_SET_SIZE = int(len(open("data/%sdata/testlabels" % dataType, "r").readlines()))
-        print("Training Set Size: %d" % TRAINING_SET_SIZE)
-        print("Validation Set Size: %d" % VALIDATION_SET_SIZE)
-        print("Test Set Size: %d" % TEST_SET_SIZE)
+            rawTrainingData = util.loadDataFile("data/%sdata/trainingimages" % dataType, TRAINING_SET_SIZE, DIGIT_PIC_WIDTH,
+                                                DIGIT_PIC_HEIGHT)
+            trainingLabels = util.loadLabelFile("data/%sdata/traininglabels" % dataType, TRAINING_SET_SIZE)
+            # print(len(rawTrainingData))
 
-        rawTrainingData = util.loadDataFile("data/%sdata/trainingimages" % dataType, TRAINING_SET_SIZE, DIGIT_PIC_WIDTH,
+            rawValidationData = util.loadDataFile("data/%sdata/validationimages" % dataType, VALIDATION_SET_SIZE,
+                                                  DIGIT_PIC_WIDTH, DIGIT_PIC_HEIGHT)
+            validationLabels = util.loadLabelFile("data/%sdata/validationlabels" % dataType, VALIDATION_SET_SIZE)
+            # print(len(rawValidationData))
+
+            rawTestData = util.loadDataFile("data/%sdata/testimages" % dataType, TEST_SET_SIZE, DIGIT_PIC_WIDTH,
                                             DIGIT_PIC_HEIGHT)
-        trainingLabels = util.loadLabelFile("data/%sdata/traininglabels" % dataType, TRAINING_SET_SIZE)
-        # print(len(rawTrainingData))
+            testLabels = util.loadLabelFile("data/%sdata/testlabels" % dataType, TEST_SET_SIZE)
+            # print(len(rawTestData))
 
-        rawValidationData = util.loadDataFile("data/%sdata/validationimages" % dataType, VALIDATION_SET_SIZE,
-                                              DIGIT_PIC_WIDTH, DIGIT_PIC_HEIGHT)
-        validationLabels = util.loadLabelFile("data/%sdata/validationlabels" % dataType, VALIDATION_SET_SIZE)
-        # print(len(rawValidationData))
+            print("Extracting features...", end="")
+            trainingData = list(map(basicFeatureExtractionDigit, rawTrainingData))
+            validationData = list(map(basicFeatureExtractionDigit, rawValidationData))
+            testData = list(map(basicFeatureExtractionDigit, rawTestData))
+            print("\033[1;32mDone!\033[0m")
 
-        rawTestData = util.loadDataFile("data/%sdata/testimages" % dataType, TEST_SET_SIZE, DIGIT_PIC_WIDTH,
-                                        DIGIT_PIC_HEIGHT)
-        testLabels = util.loadLabelFile("data/%sdata/testlabels" % dataType, TEST_SET_SIZE)
-        # print(len(rawTestData))
+        elif dataType == "face":
+            TRAINING_SET_SIZE = int(
+                len(open("data/%sdata/%sdatatrainlabels" % (dataType, dataType), "r").readlines()) * TRAINING_DATA_USAGE)
+            VALIDATION_SET_SIZE = int(
+                len(open("data/%sdata/%sdatavalidationlabels" % (dataType, dataType), "r").readlines()))
+            TEST_SET_SIZE = int(len(open("data/%sdata/%sdatatestlabels" % (dataType, dataType), "r").readlines()))
+            print("Training Data Usage: %.1f" % (TRAINING_DATA_USAGE * 100))
+            print("Training Set Size: %d" % TRAINING_SET_SIZE)
+            print("Validation Set Size: %d" % VALIDATION_SET_SIZE)
+            print("Test Set Size: %d" % TEST_SET_SIZE)
 
-        print("Extracting features...", end="")
-        trainingData = list(map(basicFeatureExtractionDigit, rawTrainingData))
-        validationData = list(map(basicFeatureExtractionDigit, rawValidationData))
-        testData = list(map(basicFeatureExtractionDigit, rawTestData))
-        print("done!")
+            rawTrainingData = util.loadDataFile("data/%sdata/facedatatrain" % dataType, TRAINING_SET_SIZE, FACE_PIC_WIDTH,
+                                                FACE_PIC_HEIGHT)
+            trainingLabels = util.loadLabelFile("data/%sdata/facedatatrainlabels" % dataType, TRAINING_SET_SIZE)
+            # print(len(rawTrainingData))
 
-        # temp = basicFeatureExtractionDigit(rawTrainingData[0])
-        # counter = 0
-        # weights = {}
-        # weights[1] = util.Counter()
-        # for key in trainingData[0].keys():
-        #     weights[1][key] = 0.5
-        #     # counter += 1
-        # print(trainingData[0])
+            rawValidationData = util.loadDataFile("data/%sdata/%sdatavalidation" % (dataType, dataType),
+                                                  VALIDATION_SET_SIZE, FACE_PIC_WIDTH, FACE_PIC_HEIGHT)
+            validationLabels = util.loadLabelFile("data/%sdata/%sdatavalidationlabels" % (dataType, dataType),
+                                                  VALIDATION_SET_SIZE)
+            # print(len(rawValidationData))
 
-    elif dataType == "face":
-        TRAINING_SET_SIZE = int(
-            len(open("data/%sdata/%sdatatrainlabels" % (dataType, dataType), "r").readlines()) * TRAINING_DATA_USAGE)
-        VALIDATION_SET_SIZE = int(
-            len(open("data/%sdata/%sdatavalidationlabels" % (dataType, dataType), "r").readlines()))
-        TEST_SET_SIZE = int(len(open("data/%sdata/%sdatatestlabels" % (dataType, dataType), "r").readlines()))
-        print("Training Set Size: %d" % TRAINING_SET_SIZE)
-        print("Validation Set Size: %d" % VALIDATION_SET_SIZE)
-        print("Test Set Size: %d" % TEST_SET_SIZE)
-
-        rawTrainingData = util.loadDataFile("data/%sdata/facedatatrain" % dataType, TRAINING_SET_SIZE, FACE_PIC_WIDTH,
+            rawTestData = util.loadDataFile("data/%sdata/%sdatatest" % (dataType, dataType), TEST_SET_SIZE, FACE_PIC_WIDTH,
                                             FACE_PIC_HEIGHT)
-        trainingLabels = util.loadLabelFile("data/%sdata/facedatatrainlabels" % dataType, TRAINING_SET_SIZE)
-        print(len(rawTrainingData))
+            testLabels = util.loadLabelFile("data/%sdata/%sdatatestlabels" % (dataType, dataType), TEST_SET_SIZE)
+            # print(len(rawTestData))
 
-        rawValidationData = util.loadDataFile("data/%sdata/%sdatavalidation" % (dataType, dataType),
-                                              VALIDATION_SET_SIZE, FACE_PIC_WIDTH, FACE_PIC_HEIGHT)
-        validationLabels = util.loadLabelFile("data/%sdata/%sdatavalidationlabels" % (dataType, dataType),
-                                              VALIDATION_SET_SIZE)
-        print(len(rawValidationData))
+            print("Extracting features...", end="")
+            trainingData = list(map(basicFeatureExtractionFace, rawTrainingData))
+            validationData = list(map(basicFeatureExtractionFace, rawValidationData))
+            testData = list(map(basicFeatureExtractionFace, rawTestData))
+            print("\033[1;32mDone!\033[0m")
 
-        rawTestData = util.loadDataFile("data/%sdata/%sdatatest" % (dataType, dataType), TEST_SET_SIZE, FACE_PIC_WIDTH,
-                                        FACE_PIC_HEIGHT)
-        testLabels = util.loadLabelFile("data/%sdata/%sdatatestlabels" % (dataType, dataType), TEST_SET_SIZE)
-        print(len(rawTestData))
+        statisticResult = "Training Data Usage: %.1f%%\n" % (TRAINING_DATA_USAGE * 100)
 
-        print("Extracting features...")
-        trainingData = map(basicFeatureExtractionFace, rawTrainingData)
-        validationData = map(basicFeatureExtractionFace, rawValidationData)
-        testData = map(basicFeatureExtractionFace, rawTestData)
+        print("Training...")
+        startTime = time.time()
+        classifier.train(trainingData, trainingLabels, validationData, validationLabels)
+        endTime = time.time()
+        print("\033[1;32mTraining completed!\033[0m\n")
 
-    print("Training...")
-    classifier.train(trainingData, trainingLabels, validationData, validationLabels)
-    print("done!\n")
+        statisticResult += "\tTraining Time: %.2f s\n" % (endTime - startTime)
 
-    print("Validating...", end="")
-    guesses = classifier.classify(validationData)
-    correct = [guesses[i] == int(validationLabels[i]) for i in range(len(validationLabels))].count(True)
-    print("done!")
-    print("\t", str(correct), ("correct out of " + str(len(validationLabels)) + " (%.2f%%).") % (100.0 * correct / len(validationLabels)))
+        print("Validating...", end="")
+        guesses = classifier.classify(validationData)
+        correct = [guesses[i] == int(validationLabels[i]) for i in range(len(validationLabels))].count(True)
+        print("\033[1;32mDone!\033[0m")
+        print("\t", str(correct), ("correct out of " + str(len(validationLabels)) + " (\033[1;32m%.2f%%\033[0m).") % (100.0 * correct / len(validationLabels)))
+        statisticResult += "\tValidation Accuracy: %s correct out of %s (%.2f%%)\n" % (str(correct), str(len(validationLabels)), (100.0 * correct/len(validationLabels)))
 
-    print("Testing...", end="")
-    guesses = classifier.classify(testData)
-    correct = [guesses[i] == int(testLabels[i]) for i in range(len(testLabels))].count(True)
-    print("done!")
-    print("\t", str(correct), ("correct out of " + str(len(testLabels)) + " (%.2f%%).") % (100.0 * correct / len(testLabels)))
-    # analysis(classifier, guesses, testLabels, testData, rawTestData, printImage)
+        print("Testing...", end="")
+        guesses = classifier.classify(testData)
+        correct = [guesses[i] == int(testLabels[i]) for i in range(len(testLabels))].count(True)
+        print("\033[1;32mDone!\033[0m")
+        print("\t", str(correct), ("correct out of " + str(len(testLabels)) + " (\033[1;32m%.2f%%\033[0m).") % (100.0 * correct / len(testLabels)))
+        statisticResult += "\tTest Accuracy: %s correct out of %s (%.2f%%)\n" % (str(correct), str(len(testLabels)), (100.0 * correct/len(testLabels)))
+        with open(resultStatisticFilePath, "a") as resultStatisticFile:
+            resultStatisticFile.write(statisticResult)
+        with open(resultWeightsFilePath, "a") as resultWeightsFile:
+            resultWeightsFile.write("%s\n" % str(classifier.weights))
+
+        if dataType == "digit":
+            weightPixels = ""
+            for i in range(len(classifier.legalLabels)):
+                weightMatrix = np.zeros((DIGIT_PIC_WIDTH, DIGIT_PIC_HEIGHT))
+                for x, y in classifier.findHighWeightFeatures(int(classifier.legalLabels[i]), int(DIGIT_PIC_HEIGHT * DIGIT_PIC_WIDTH / 8)):
+                    # print(x, y)
+                    weightMatrix[x][y] = 1
+                # print(classifier.legalLabels[i])
+                weightPixels += "Training Data Usage: %.1f%%\tDigit: %s\n" % (TRAINING_DATA_USAGE * 100, classifier.legalLabels[i])
+                for line in weightMatrix:
+                    for character in line:
+                        if int(character) == 0:
+                            # print(" ", end="")
+                            weightPixels += " "
+                        else:
+                            # print("#", end="")
+                            weightPixels += "#"
+                    # print()
+                    weightPixels += "\n"
+            with open(resultWeightsGraphFilePath, "a") as resultWeightsGraphFile:
+                resultWeightsGraphFile.write("%s\n" % weightPixels)
+        elif dataType == "face":
+            weightPixels = ""
+            weightMatrix = np.zeros((FACE_PIC_WIDTH, FACE_PIC_HEIGHT))
+            for x, y in classifier.findHighWeightFeatures(int(classifier.legalLabels[1]), int(FACE_PIC_WIDTH * FACE_PIC_HEIGHT / 8)):
+                weightMatrix[x][y] = 1
+            weightPixels = "Training Data Usage: %.1f%%\n" % (TRAINING_DATA_USAGE * 100)
+            for line in weightMatrix:
+                for character in line:
+                    if int(character) == 0:
+                        # print(" ", end="")
+                        weightPixels += " "
+                    else:
+                        # print("#", end="")
+                        weightPixels += "#"
+                # print()
+                weightPixels += "\n"
+            with open(resultWeightsGraphFilePath, "a") as resultWeightsGraphFile:
+                resultWeightsGraphFile.write("%s\n" % weightPixels)
 

@@ -1,4 +1,5 @@
 import numpy as np
+from functools import cmp_to_key
 
 
 def IntegerConversionFunction(character):
@@ -103,8 +104,13 @@ class Counter(dict):
 
     def sortedKeys(self):
         sortedItem = self.items()
-        compare = lambda x, y: sign(y[1] - x[1])
-        sortedItem.sort(cmp=compare)
+        # print(sortedItem)
+        # sortedItem.remove(1)
+        # print(sortedItem)
+        # compare = lambda x, y: sign(y[1] - x[1])
+        sortedItem = sorted(sortedItem, key=lambda x: x[1], reverse=True)
+        # print(sortedItem)
+        # sortedItem.sort(cmp=compare)
         return [x[0] for x in sortedItem]
 
     def totalCount(self):

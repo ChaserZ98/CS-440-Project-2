@@ -24,6 +24,8 @@ class PerceptronClassifier:
                 self.weights[label][key] = 0.5
             # print(self.weights[label])
 
+        bestWeights = {}
+        bestAccuracy = 0
         for iteration in range(self.maxIteration):
             print("Starting iteration %d..." % iteration, end="")
             i = 0
@@ -58,12 +60,22 @@ class PerceptronClassifier:
                 #     print("\033[1;32mPass!\033[0m %s" % result)
                 i += 1
             # print(self.weights)
+
+            guesses = self.classify(validationData)
+            correct = [guesses[i] == int(validationLabels[i]) for i in range(len(validationLabels))].count(True)
+            accuracy = correct/len(validationLabels)
+
+            if accuracy > bestAccuracy:
+                bestWeights = self.weights
+                bestAccuracy = accuracy
+
             if allPassFlag is True:
                 # print("\n\033[1;32mAll training data pass without any updates!\033[0m")
                 # print(self.weights)
                 print("\033[1;32mDone!\033[0m")
                 break
             print("\033[1;32mDone!\033[0m")
+        self.weights = bestWeights
 
     def classify(self, data):
         guesses = []
@@ -74,6 +86,11 @@ class PerceptronClassifier:
             guesses.append(vectors.argMax())
         return guesses
 
-    def findHighWeightFeatures(self, label):
+    def findHighWeightFeatures(self, label, weightNum: int):
         featuresWeights = []
+        sortedItems = self.weights[label].sortedKeys()
+        # print(sortedItems)
+        for i in range(1, weightNum):
+            if type(sortedItems[i]) is tuple:
+                featuresWeights.append(sortedItems[i])
         return featuresWeights
