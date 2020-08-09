@@ -186,7 +186,7 @@ if __name__ == '__main__':
                     resultWeightsFile.write("%s\n" % str(classifier.weights))
             print()
 
-            if dataType == "digit":
+            if dataType == "digit" and classifierType == "perceptron":
                 weightPixels = ""
                 for i in range(len(classifier.legalLabels)):
                     weightMatrix = np.zeros((DIGIT_PIC_WIDTH, DIGIT_PIC_HEIGHT))
@@ -209,7 +209,7 @@ if __name__ == '__main__':
                         weightPixels += "\n"
                 with open(resultWeightsGraphFilePath, "a") as resultWeightsGraphFile:
                     resultWeightsGraphFile.write("%s\n" % weightPixels)
-            elif dataType == "face":
+            elif dataType == "face" and classifierType == "perceptron":
                 weightPixels = ""
                 weightMatrix = np.zeros((FACE_PIC_WIDTH, FACE_PIC_HEIGHT))
                 for x, y in classifier.findHighWeightFeatures(int(classifier.legalLabels[1]), int(FACE_PIC_WIDTH * FACE_PIC_HEIGHT / 8)):
