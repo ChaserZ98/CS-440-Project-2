@@ -34,6 +34,32 @@ def convertToAscii(data):
         return np.array(list(map(convertToAscii, data)))
 
 
+def loadDataFileRandomly(filepath: str, randomOrder: list, width: int, height: int):
+    items = []
+    file = open(filepath, "r")
+    # print(randomOrder)
+    for i in randomOrder:
+        file.seek(i * (width + 1) * height, 0)
+        # print("Data File i: ", i)
+        # print("Data File: ", file.tell())
+        picData = []
+        for lineCounter in range(height):
+            picData.append([character for character in file.readline() if character != '\n'])
+        items.append(Picture(np.array(picData), width, height))
+    return items
+
+
+def loadLabelFileRandomly(filepath: str, randomOrder: list):
+    file = open(filepath, "r")
+    labels = []
+    for i in randomOrder:
+        file.seek(2 * i, 0)
+        # print("Label File i: ", i)
+        # print("Label File: ", file.tell())
+        labels.append(file.read(1))
+    return labels
+
+
 def loadDataFile(filePath: str, totalPicNum: int, width: int, height: int):
     items = []
     file = open(filePath, "r")

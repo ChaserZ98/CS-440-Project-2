@@ -27,7 +27,7 @@ class PerceptronClassifier:
         bestWeights = {}
         bestAccuracy = 0
         for iteration in range(self.maxIteration):
-            print("Starting iteration %d..." % iteration, end="")
+            print("\t\tStarting iteration %d..." % iteration, end="")
             i = 0
             allPassFlag = True
             while i < len(trainingData):
