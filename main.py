@@ -3,7 +3,6 @@ import perceptron
 import numpy as np
 import util
 import os
-import sys
 import random
 import time
 
@@ -43,10 +42,14 @@ def basicFeatureExtractionFace(pic: util.Picture):
 
 if __name__ == '__main__':
     np.set_printoptions(linewidth=400)
+    # classifierType = "naiveBayes"
+    classifierType = "perceptron"
+
     dataType = "digit"
     legalLabels = range(10)
     # dataType = "face"
     # legalLabels = range(2)
+
     TRAINING_DATA_USAGE_SET = [round(i*0.1, 1) for i in range(1, 11)]
     MAX_ITERATIONS = 10
     RANDOM_ITERATION = 5
@@ -55,9 +58,12 @@ if __name__ == '__main__':
         os.mkdir('result')
     if os.path.exists('result/%s' % dataType) is False:
         os.mkdir('result/%s' % dataType)
-    resultStatisticFilePath = "result/%s/StatisticData.txt" % dataType
-    resultWeightsFilePath = "result/%s/WeightsData.txt" % dataType
-    resultWeightsGraphFilePath = "result/%s/WeightGraph.txt" % dataType
+    if os.path.exists('result/%s/%s' % (dataType, classifierType)) is False:
+        os.mkdir('result/%s/%s' % (dataType, classifierType))
+    resultStatisticFilePath = "result/%s/%s/StatisticData.txt" % (dataType, classifierType)
+    resultWeightsFilePath = "result/%s/%s/WeightsData.txt" % (dataType, classifierType)
+    resultWeightsGraphFilePath = "result/%s/%s/WeightGraph.txt" % (dataType, classifierType)
+
     if os.path.exists(resultStatisticFilePath):
         os.remove(resultStatisticFilePath)
     if os.path.exists(resultWeightsFilePath):
@@ -65,12 +71,24 @@ if __name__ == '__main__':
     if os.path.exists(resultWeightsGraphFilePath):
         os.remove(resultWeightsGraphFilePath)
 
-    classifier = perceptron.PerceptronClassifier(legalLabels, MAX_ITERATIONS)
+    classifier = None
+    if classifierType == "naiveBayes":
+        classifier = naiveBayes.NaiveBayesClassifier(legalLabels)
+    else:
+        classifier = perceptron.PerceptronClassifier(legalLabels, MAX_ITERATIONS)
+
+    # classifier = perceptron.PerceptronClassifier(legalLabels, MAX_ITERATIONS)
     # print(classifier.weights)
     for TRAINING_DATA_USAGE in TRAINING_DATA_USAGE_SET:
         accuracy = []
         statisticResult = ""
         for randomTime in range(RANDOM_ITERATION):
+            trainingData = None
+            trainingLabels = None
+            validationData = None
+            validationLabels = None
+            testData = None
+            testLabels = None
             if dataType == "digit":
                 TRAINING_SET_SIZE = int(len(open("data/%sdata/traininglabels" % dataType, "r").readlines()) * TRAINING_DATA_USAGE)
                 VALIDATION_SET_SIZE = int(len(open("data/%sdata/validationlabels" % dataType, "r").readlines()))
