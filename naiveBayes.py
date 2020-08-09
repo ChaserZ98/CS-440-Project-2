@@ -80,14 +80,14 @@ class NaiveBayesClassifier:
             result.append(util.Counter())
             numberOfLabel.append(0)
             for key in trainingData[0]:
-                result[int(label)][key] = 0
+                result[label][key] = 0
 
             for i in range(len(trainingLabels)):
-                if trainingLabels[i] == label:
-                    numberOfLabel[int(label)] += 1
+                if int(trainingLabels[i]) == label:
+                    numberOfLabel[label] += 1
                     for key in trainingData[i]:
                         if trainingData[i][key] == 0:
-                            result[int(label)][key] += 1
+                            result[label][key] += 1
 
             #for key in result[int(label)]:
                 # probability of empty space of each feature in  each label
@@ -112,14 +112,14 @@ class NaiveBayesClassifier:
                 realAnswer = int(validationLabels[j])
                 probability = []
                 for label in self.legalLabels:
-                    logValue = math.log(pOfLabel[int(label)])
+                    logValue = math.log(pOfLabel[label])
                     #calculate conditional probability
                     for key in validationData[j]:
                         if validationData[j][key] == 0:
-                            calculate1 = (result[int(label)][key]+kgrid[i]) / (numberOfLabel[int(label)]+2*kgrid[i])
+                            calculate1 = (result[label][key]+kgrid[i]) / (numberOfLabel[label]+2*kgrid[i])
                             logValue += math.log(calculate1)
                         else:
-                            calculate2 = ((numberOfLabel[int(label)] - result[int(label)][key]) + kgrid[i])/(numberOfLabel[int(label)] + 2*kgrid[i])
+                            calculate2 = ((numberOfLabel[label] - result[label][key]) + kgrid[i])/(numberOfLabel[label] + 2*kgrid[i])
                             logValue += math.log(calculate2)
                     probability.append(logValue)
                 # prediction of label
@@ -166,16 +166,16 @@ class NaiveBayesClassifier:
 
         "*** YOUR CODE HERE ***"
         for label in self.legalLabels:
-            logValue = math.log(self.pOfLabel[int(label)])
+            logValue = math.log(self.pOfLabel[label])
             # calculate conditional probability
             for key in datum:
                 if datum[key] == 0:
-                    calculate1 = (self.result[int(label)][key] + self.k) / (self.numberOfLabel[int(label)] + 2 * self.k)
+                    calculate1 = (self.result[label][key] + self.k) / (self.numberOfLabel[label] + 2 * self.k)
                     logValue += math.log(calculate1)
                 else:
-                    calculate2 = ((self.numberOfLabel[int(label)] - self.result[int(label)][key]) + self.k) / (self.numberOfLabel[int(label)] + 2 * self.k)
+                    calculate2 = ((self.numberOfLabel[label] - self.result[label][key]) + self.k) / (self.numberOfLabel[label] + 2 * self.k)
                     logValue += math.log(calculate2)
-            logJoint[int(label)] = logValue
+            logJoint[label] = logValue
         # prediction of label
         return logJoint
 
