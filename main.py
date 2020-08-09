@@ -181,8 +181,9 @@ if __name__ == '__main__':
             statisticResult += "\tTest Accuracy: %s correct out of %s (%.2f%%)\n" % (str(correct), str(len(testLabels)), (100.0 * correct/len(testLabels)))
             accuracy.append(round(correct/len(testLabels), 4))
 
-            with open(resultWeightsFilePath, "a") as resultWeightsFile:
-                resultWeightsFile.write("%s\n" % str(classifier.weights))
+            if classifierType == "perceptron":
+                with open(resultWeightsFilePath, "a") as resultWeightsFile:
+                    resultWeightsFile.write("%s\n" % str(classifier.weights))
             print()
 
             if dataType == "digit":
