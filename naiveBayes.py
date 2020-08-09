@@ -2,7 +2,7 @@ import random
 import util
 import math
 
-class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
+class NaiveBayesClassifier:
     """
     See the project description for the specifications of the Naive Bayes classifier.
 
@@ -14,7 +14,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         self.legalLabels = legalLabels
         self.type = "naivebayes"
         self.k = 1  # this is the smoothing parameter, ** use it in your train method **
-        self.automaticTuning = False  # Look at this flag to decide whether to choose k automatically ** use this in your train method **
+        #self.automaticTuning = False  # Look at this flag to decide whether to choose k automatically ** use this in your train method **
 
     def setSmoothing(self, k):
         """
@@ -32,10 +32,12 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         # this is a list of all features in the training set.
         self.features = list(set([f for datum in trainingData for f in datum.keys()]));
 
-        if (self.automaticTuning):
-            kgrid = [0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 20, 50]
-        else:
-            kgrid = [self.k]
+        kgrid = [0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 20, 50]
+
+        #if (self.automaticTuning):
+            #kgrid = [0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 20, 50]
+        #else:
+            #kgrid = [self.k]
 
         self.trainAndTune(trainingData, trainingLabels, validationData, validationLabels, kgrid)
 
@@ -75,8 +77,8 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
 
 
         for label in self.legalLabels:
-            result[int(label)] = util.Counter
-            numberOfLabel[int(label)] = 0
+            result.append(util.Counter())
+            numberOfLabel.append(0)
             for key in trainingData[0]:
                 result[int(label)][key] = 0
 
@@ -87,9 +89,9 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
                         if trainingData[i][key] == 0:
                             result[int(label)][key] += 1
 
-            for key in result[int(label)]:
+            #for key in result[int(label)]:
                 # probability of empty space of each feature in  each label
-                result[int(label)][key] = result[int(label)][key]/numberOfLabel[int(label)]
+                #result[int(label)][key] = result[int(label)][key]/numberOfLabel[int(label)]
 
         countOfValidation = len(validationLabels)
         # calculate probability of specific label
@@ -99,7 +101,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
             for i in range(len(validationLabels)):
                 if validationLabels[i] ==  label:
                     count += 1
-            pOfLabel[int(label)] = count/len(validationLabels)
+            pOfLabel.append(count/len(validationLabels))
 
         bestK = 1
         bestValue = 0
@@ -114,10 +116,12 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
                     #calculate conditional probability
                     for key in validationData[j]:
                         if validationData[j][key] == 0:
-                            logValue += math.log(result[int(label)][key])
+                            calculate1 = result[int(label)][key]+kgrid[i] / numberOfLabel[int(label)]+2*kgrid[i]
+                            logValue += math.log(calculate1)
                         else:
-                            logValue += math.log(1 - result[int(label)][key])
-                    probability[int(label)] = logValue
+                            calculate2 = (numberOfLabel[int(label)] - result[int(label)][key]) + kgrid[i]/numberOfLabel[int(label)] + 2*kgrid[i]
+                            logValue += math.log(calculate2)
+                    probability.append(logValue)
                 # prediction of label
                 answer =  probability.index(max(probability))
                 if answer == realAnswer:
@@ -127,7 +131,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
                 bestValue = correct
                 bestK = kgrid[i]
 
-        self.k = bestK
+        self.setSmoothing(bestK)
         print(bestValue)
         print(bestK)
 
@@ -158,29 +162,27 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         logJoint = util.Counter()
 
         "*** YOUR CODE HERE ***"
-        self.features = list(set([f for datum in trainingData for f in datum.keys()]));
-        for  key  in  len(self.features):
-
-        util.raiseNotDefined()
+        probability = []
+        for label in self.legalLabels:
+            logValue = math.log(pOfLabel[int(label)])
+            # calculate conditional probability
+            for key in validationData[j]:
+                if validationData[j][key] == 0:
+                    calculate1 = result[int(label)][key] + kgrid[i] / numberOfLabel[int(label)] + 2 * kgrid[i]
+                    logValue += math.log(calculate1)
+                else:
+                    calculate2 = (numberOfLabel[int(label)] - result[int(label)][key]) + kgrid[i] / numberOfLabel[
+                        int(label)] + 2 * kgrid[i]
+                    logValue += math.log(calculate2)
+            probability.append(logValue)
+        # prediction of label
+        answer = probability.index(max(probability))
+        if answer == realAnswer:
+            correct += 1
+        correct = correct / countOfValidation * 100
 
         return logJoint
 
-    def findHighOddsFeatures(self, label1, label2):
-        """
-        Returns the 100 best features for the odds ratio:
-                P(feature=1 | label1)/P(feature=1 | label2)
-
-        Note: you may find 'self.features' a useful way to loop through all possible features
-        """
-        featuresOdds = []
-
-        "*** YOUR CODE HERE ***"
-
-        for label in self.legalLabels:
-            if  label =
-        util.raiseNotDefined()
-
-        return featuresOdds
 
 
 
