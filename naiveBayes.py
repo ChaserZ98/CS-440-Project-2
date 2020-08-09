@@ -62,7 +62,7 @@ class NaiveBayesClassifier:
         numberOfSamples = len(trainingLabels)
 
         # total count of # in each feature
-        countOfLabel = util.Counter
+        countOfLabel = util.Counter()
         for key in trainingData[0]:
             countOfLabel[key] = 0
 
@@ -99,7 +99,7 @@ class NaiveBayesClassifier:
         for label in self.legalLabels:
             count = 0
             for i in range(len(validationLabels)):
-                if validationLabels[i] ==  label:
+                if int(validationLabels[i]) == label:
                     count += 1
             pOfLabel.append(count/len(validationLabels))
 
