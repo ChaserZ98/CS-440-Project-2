@@ -116,10 +116,10 @@ class NaiveBayesClassifier:
                     #calculate conditional probability
                     for key in validationData[j]:
                         if validationData[j][key] == 0:
-                            calculate1 = result[int(label)][key]+kgrid[i] / numberOfLabel[int(label)]+2*kgrid[i]
+                            calculate1 = (result[int(label)][key]+kgrid[i]) / (numberOfLabel[int(label)]+2*kgrid[i])
                             logValue += math.log(calculate1)
                         else:
-                            calculate2 = (numberOfLabel[int(label)] - result[int(label)][key]) + kgrid[i]/numberOfLabel[int(label)] + 2*kgrid[i]
+                            calculate2 = ((numberOfLabel[int(label)] - result[int(label)][key]) + kgrid[i])/(numberOfLabel[int(label)] + 2*kgrid[i])
                             logValue += math.log(calculate2)
                     probability.append(logValue)
                 # prediction of label
@@ -132,6 +132,9 @@ class NaiveBayesClassifier:
                 bestK = kgrid[i]
 
         self.setSmoothing(bestK)
+        self.result = result
+        self.numberOfLabel = numberOfLabel
+        self.pOfLabel = pOfLabel
         print(bestValue)
         print(bestK)
 
@@ -162,25 +165,18 @@ class NaiveBayesClassifier:
         logJoint = util.Counter()
 
         "*** YOUR CODE HERE ***"
-        probability = []
         for label in self.legalLabels:
-            logValue = math.log(pOfLabel[int(label)])
+            logValue = math.log(self.pOfLabel[int(label)])
             # calculate conditional probability
-            for key in validationData[j]:
-                if validationData[j][key] == 0:
-                    calculate1 = result[int(label)][key] + kgrid[i] / numberOfLabel[int(label)] + 2 * kgrid[i]
+            for key in datum:
+                if datum[key] == 0:
+                    calculate1 = (self.result[int(label)][key] + self.k) / (self.numberOfLabel[int(label)] + 2 * self.k)
                     logValue += math.log(calculate1)
                 else:
-                    calculate2 = (numberOfLabel[int(label)] - result[int(label)][key]) + kgrid[i] / numberOfLabel[
-                        int(label)] + 2 * kgrid[i]
+                    calculate2 = ((self.numberOfLabel[int(label)] - self.result[int(label)][key]) + self.k) / (self.numberOfLabel[int(label)] + 2 * self.k)
                     logValue += math.log(calculate2)
-            probability.append(logValue)
+            logJoint[int(label)] = logValue
         # prediction of label
-        answer = probability.index(max(probability))
-        if answer == realAnswer:
-            correct += 1
-        correct = correct / countOfValidation * 100
-
         return logJoint
 
 
