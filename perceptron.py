@@ -37,25 +37,38 @@ class PerceptronClassifier:
                     result[label] = self.weights[label] * trainingData[i] + self.weights[label][0]
 
                 isUpdate = False
+                largestValue = max(result.values())
+                predictionKey = None
                 for key, value in result.items():
-                    if value >= 0 and key != int(trainingLabels[i]):
-                        # if isUpdate is False:
-                        #     print("\033[1;31mError!\033[0m")
-                        # print("\t\tUpdating weight %s..." % key, end="")
+                    if value == largestValue:
+                        predictionKey = key
+                if predictionKey != int(trainingLabels[i]):
+                    if result[predictionKey] > 0:
+                        self.weights[predictionKey] = self.weights[predictionKey] - trainingData[i]
+                        self.weights[predictionKey][0] = self.weights[predictionKey][0] - learningRate
                         isUpdate = True
-                        self.weights[key] = self.weights[key] - trainingData[i]
-                        self.weights[key][0] = self.weights[key][0] + learningRate
-                    elif value < 0 and key == int(trainingLabels[i]):
-                        # if isUpdate is False:
-                        #     print("\033[1;31mError!\033[0m")
-                        # print("\t\tUpdating weight %s..." % key, end="")
+                    if result[int(trainingLabels[i]) < 0]:
                         isUpdate = True
-                        self.weights[key] = self.weights[key] + trainingData[i]
-                        self.weights[key][0] = self.weights[key][0] - learningRate
+                        self.weights[int(trainingLabels[i])] = self.weights[int(trainingLabels[i])] + trainingData[i]
+                        self.weights[predictionKey][0] = self.weights[predictionKey][0] + learningRate
+                    # if value >= 0 and key != int(trainingLabels[i]):
+                    #     # if isUpdate is False:
+                    #     #     print("\033[1;31mError!\033[0m")
+                    #     # print("\t\tUpdating weight %s..." % key, end="")
+                    #     isUpdate = True
+                    #     self.weights[key] = self.weights[key] - trainingData[i]
+                    #     self.weights[key][0] = self.weights[key][0] + learningRate
+                    # elif value < 0 and key == int(trainingLabels[i]):
+                    #     # if isUpdate is False:
+                    #     #     print("\033[1;31mError!\033[0m")
+                    #     # print("\t\tUpdating weight %s..." % key, end="")
+                    #     isUpdate = True
+                    #     self.weights[key] = self.weights[key] + trainingData[i]
+                    #     self.weights[key][0] = self.weights[key][0] - learningRate
                 if isUpdate is True:
                     allPassFlag = False
                     # print("%s" % result)
-                    continue
+                    # continue
                 # else:
                 #     print("\033[1;32mPass!\033[0m %s" % result)
                 i += 1

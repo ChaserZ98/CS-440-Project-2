@@ -74,8 +74,10 @@ if __name__ == '__main__':
     classifier = None
     if classifierType == "naiveBayes":
         classifier = naiveBayes.NaiveBayesClassifier(legalLabels)
+        print("Classifier Type: \033[1;32mNaive Bayes\033[0m")
     else:
         classifier = perceptron.PerceptronClassifier(legalLabels, MAX_ITERATIONS)
+        print("Classifier Type: \033[1;32mPerceptron\033[0m")
 
     # classifier = perceptron.PerceptronClassifier(legalLabels, MAX_ITERATIONS)
     # print(classifier.weights)
@@ -214,7 +216,8 @@ if __name__ == '__main__':
                 weightMatrix = np.zeros((FACE_PIC_WIDTH, FACE_PIC_HEIGHT))
                 for x, y in classifier.findHighWeightFeatures(int(classifier.legalLabels[1]), int(FACE_PIC_WIDTH * FACE_PIC_HEIGHT / 8)):
                     weightMatrix[x][y] = 1
-                weightPixels = "Training Data Usage: %.1f%%\tRandom Time: %d\n" % (TRAINING_DATA_USAGE * 100, randomTime)
+                weightPixels += "Training Data Usage: %.1f%%\tRandom Time: %d\n" % (TRAINING_DATA_USAGE * 100, randomTime)
+                weightMatrix = np.rot90(weightMatrix, 1)
                 for line in weightMatrix:
                     for character in line:
                         if int(character) == 0:
@@ -229,7 +232,7 @@ if __name__ == '__main__':
                     resultWeightsGraphFile.write("%s\n" % weightPixels)
 
         accuracyMean = np.mean(accuracy)
-        accuracyStd = np.std(accuracy, ddof=1)
+        accuracyStd = np.std(accuracy)
         print("Accuracy: ", accuracy)
         print("Accuracy Mean: \033[1;32m%.2f%%\033[0m" % (accuracyMean * 100))
         statisticResult += "Accuracy Mean: %.2f%%\t" % (accuracyMean * 100)
