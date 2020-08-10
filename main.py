@@ -42,8 +42,8 @@ def basicFeatureExtractionFace(pic: util.Picture):
 
 if __name__ == '__main__':
     np.set_printoptions(linewidth=400)
-    # classifierType = "naiveBayes"
-    classifierType = "perceptron"
+    classifierType = "naiveBayes"
+    # classifierType = "perceptron"
 
     dataType = "digit"
     legalLabels = range(10)
