@@ -45,10 +45,10 @@ if __name__ == '__main__':
     # classifierType = "naiveBayes"
     classifierType = "perceptron"
 
-    # dataType = "digit"
-    # legalLabels = range(10)
-    dataType = "face"
-    legalLabels = range(2)
+    dataType = "digit"
+    legalLabels = range(10)
+    # dataType = "face"
+    # legalLabels = range(2)
 
     TRAINING_DATA_USAGE_SET = [round(i*0.1, 1) for i in range(1, 11)]
     MAX_ITERATIONS = 10
@@ -74,8 +74,10 @@ if __name__ == '__main__':
     classifier = None
     if classifierType == "naiveBayes":
         classifier = naiveBayes.NaiveBayesClassifier(legalLabels)
+        print("Classifier Type: \033[1;32mNaive Bayes\033[0m")
     else:
         classifier = perceptron.PerceptronClassifier(legalLabels, MAX_ITERATIONS)
+        print("Classifier Type: \033[1;32mPerceptron\033[0m")
 
     # classifier = perceptron.PerceptronClassifier(legalLabels, MAX_ITERATIONS)
     # print(classifier.weights)
@@ -230,7 +232,7 @@ if __name__ == '__main__':
                     resultWeightsGraphFile.write("%s\n" % weightPixels)
 
         accuracyMean = np.mean(accuracy)
-        accuracyStd = np.std(accuracy, ddof=1)
+        accuracyStd = np.std(accuracy)
         print("Accuracy: ", accuracy)
         print("Accuracy Mean: \033[1;32m%.2f%%\033[0m" % (accuracyMean * 100))
         statisticResult += "Accuracy Mean: %.2f%%\t" % (accuracyMean * 100)

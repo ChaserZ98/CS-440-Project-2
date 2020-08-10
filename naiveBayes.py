@@ -2,6 +2,7 @@ import random
 import util
 import math
 
+
 class NaiveBayesClassifier:
     """
     See the project description for the specifications of the Naive Bayes classifier.
@@ -14,7 +15,7 @@ class NaiveBayesClassifier:
         self.legalLabels = legalLabels
         self.type = "naivebayes"
         self.k = 1  # this is the smoothing parameter, ** use it in your train method **
-        #self.automaticTuning = False  # Look at this flag to decide whether to choose k automatically ** use this in your train method **
+        # self.automaticTuning = False  # Look at this flag to decide whether to choose k automatically ** use this in your train method **
 
     def setSmoothing(self, k):
         """
@@ -34,10 +35,10 @@ class NaiveBayesClassifier:
 
         kgrid = [0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 20, 50]
 
-        #if (self.automaticTuning):
-            #kgrid = [0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 20, 50]
-        #else:
-            #kgrid = [self.k]
+        # if (self.automaticTuning):
+        # kgrid = [0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 20, 50]
+        # else:
+        # kgrid = [self.k]
 
         self.trainAndTune(trainingData, trainingLabels, validationData, validationLabels, kgrid)
 
@@ -55,8 +56,6 @@ class NaiveBayesClassifier:
         self.legalLabels.
         """
 
-        "*** YOUR CODE HERE ***"
-
         result = []
         numberOfLabel = []
         numberOfSamples = len(trainingLabels)
@@ -69,12 +68,11 @@ class NaiveBayesClassifier:
         for datum in trainingData:
             for key in datum:
                 if datum[key] == 0:
-                        countOfLabel[key] += 1
+                    countOfLabel[key] += 1
 
         # probability distribution of not empty for each feature
         for key in countOfLabel:
-            countOfLabel[key] = countOfLabel[key]/numberOfSamples
-
+            countOfLabel[key] = countOfLabel[key] / numberOfSamples
 
         for label in self.legalLabels:
             result.append(util.Counter())
@@ -89,9 +87,9 @@ class NaiveBayesClassifier:
                         if trainingData[i][key] == 0:
                             result[label][key] += 1
 
-            #for key in result[int(label)]:
-                # probability of empty space of each feature in  each label
-                #result[int(label)][key] = result[int(label)][key]/numberOfLabel[int(label)]
+            # for key in result[int(label)]:
+            # probability of empty space of each feature in  each label
+            # result[int(label)][key] = result[int(label)][key]/numberOfLabel[int(label)]
 
         countOfValidation = len(validationLabels)
         # calculate probability of specific label
@@ -101,32 +99,33 @@ class NaiveBayesClassifier:
             for i in range(len(validationLabels)):
                 if int(validationLabels[i]) == label:
                     count += 1
-            pOfLabel.append(count/len(validationLabels))
+            pOfLabel.append(count / len(validationLabels))
 
         bestK = 1
         bestValue = 0
         for i in range(len(kgrid)):
             correct = 0
             for j in range(len(validationLabels)):
-                #convert label to integer
+                # convert label to integer
                 realAnswer = int(validationLabels[j])
                 probability = []
                 for label in self.legalLabels:
                     logValue = math.log(pOfLabel[label])
-                    #calculate conditional probability
+                    # calculate conditional probability
                     for key in validationData[j]:
                         if validationData[j][key] == 0:
-                            calculate1 = (result[label][key]+kgrid[i]) / (numberOfLabel[label]+2*kgrid[i])
+                            calculate1 = (result[label][key] + kgrid[i]) / (numberOfLabel[label] + 2 * kgrid[i])
                             logValue += math.log(calculate1)
                         else:
-                            calculate2 = ((numberOfLabel[label] - result[label][key]) + kgrid[i])/(numberOfLabel[label] + 2*kgrid[i])
+                            calculate2 = ((numberOfLabel[label] - result[label][key]) + kgrid[i]) / (
+                                        numberOfLabel[label] + 2 * kgrid[i])
                             logValue += math.log(calculate2)
                     probability.append(logValue)
                 # prediction of label
-                answer =  probability.index(max(probability))
+                answer = probability.index(max(probability))
                 if answer == realAnswer:
                     correct += 1
-            correct = correct/countOfValidation*100
+            correct = correct / countOfValidation * 100
             if correct > bestValue:
                 bestValue = correct
                 bestK = kgrid[i]
@@ -135,9 +134,8 @@ class NaiveBayesClassifier:
         self.result = result
         self.numberOfLabel = numberOfLabel
         self.pOfLabel = pOfLabel
-        print(bestValue)
-        print(bestK)
-
+        # print(bestValue)
+        # print(bestK)
 
     def classify(self, testData):
         """
@@ -173,13 +171,9 @@ class NaiveBayesClassifier:
                     calculate1 = (self.result[label][key] + self.k) / (self.numberOfLabel[label] + 2 * self.k)
                     logValue += math.log(calculate1)
                 else:
-                    calculate2 = ((self.numberOfLabel[label] - self.result[label][key]) + self.k) / (self.numberOfLabel[label] + 2 * self.k)
+                    calculate2 = ((self.numberOfLabel[label] - self.result[label][key]) + self.k) / (
+                                self.numberOfLabel[label] + 2 * self.k)
                     logValue += math.log(calculate2)
             logJoint[label] = logValue
         # prediction of label
         return logJoint
-
-
-
-
-
