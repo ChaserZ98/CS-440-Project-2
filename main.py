@@ -45,10 +45,10 @@ if __name__ == '__main__':
     # classifierType = "naiveBayes"
     classifierType = "perceptron"
 
-    dataType = "digit"
-    legalLabels = range(10)
-    # dataType = "face"
-    # legalLabels = range(2)
+    # dataType = "digit"
+    # legalLabels = range(10)
+    dataType = "face"
+    legalLabels = range(2)
 
     TRAINING_DATA_USAGE_SET = [round(i*0.1, 1) for i in range(1, 11)]
     MAX_ITERATIONS = 10
@@ -214,7 +214,8 @@ if __name__ == '__main__':
                 weightMatrix = np.zeros((FACE_PIC_WIDTH, FACE_PIC_HEIGHT))
                 for x, y in classifier.findHighWeightFeatures(int(classifier.legalLabels[1]), int(FACE_PIC_WIDTH * FACE_PIC_HEIGHT / 8)):
                     weightMatrix[x][y] = 1
-                weightPixels = "Training Data Usage: %.1f%%\tRandom Time: %d\n" % (TRAINING_DATA_USAGE * 100, randomTime)
+                weightPixels += "Training Data Usage: %.1f%%\tRandom Time: %d\n" % (TRAINING_DATA_USAGE * 100, randomTime)
+                weightMatrix = np.rot90(weightMatrix, 1)
                 for line in weightMatrix:
                     for character in line:
                         if int(character) == 0:
