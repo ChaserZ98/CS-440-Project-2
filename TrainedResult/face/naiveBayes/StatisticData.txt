@@ -1,0 +1,5 @@
+Training Data Usage: 10.0%	Random Time: 0
+	Training Time: 40.99 s
+	Validation Accuracy: 228 correct out of 301 (75.75%)
+	Test Accuracy: 113 correct out of 150 (75.33%)
+Accuracy Mean: 75.33%	Accuracy Standard Deviation: 0.00000000
