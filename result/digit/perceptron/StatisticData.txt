@@ -1,0 +1,210 @@
+Training Data Usage: 10.0%	Random Time: 0
+	Training Time: 135.67 s
+	Validation Accuracy: 807 correct out of 1000 (80.70%)
+	Test Accuracy: 766 correct out of 1000 (76.60%)
+Training Data Usage: 10.0%	Random Time: 1
+	Training Time: 135.57 s
+	Validation Accuracy: 777 correct out of 1000 (77.70%)
+	Test Accuracy: 755 correct out of 1000 (75.50%)
+Training Data Usage: 10.0%	Random Time: 2
+	Training Time: 131.19 s
+	Validation Accuracy: 784 correct out of 1000 (78.40%)
+	Test Accuracy: 765 correct out of 1000 (76.50%)
+Training Data Usage: 10.0%	Random Time: 3
+	Training Time: 132.47 s
+	Validation Accuracy: 771 correct out of 1000 (77.10%)
+	Test Accuracy: 748 correct out of 1000 (74.80%)
+Training Data Usage: 10.0%	Random Time: 4
+	Training Time: 129.11 s
+	Validation Accuracy: 723 correct out of 1000 (72.30%)
+	Test Accuracy: 705 correct out of 1000 (70.50%)
+Accuracy Mean: 74.78%	Accuracy Standard Deviation: 0.02240893
+Training Data Usage: 20.0%	Random Time: 0
+	Training Time: 163.13 s
+	Validation Accuracy: 805 correct out of 1000 (80.50%)
+	Test Accuracy: 773 correct out of 1000 (77.30%)
+Training Data Usage: 20.0%	Random Time: 1
+	Training Time: 164.52 s
+	Validation Accuracy: 807 correct out of 1000 (80.70%)
+	Test Accuracy: 765 correct out of 1000 (76.50%)
+Training Data Usage: 20.0%	Random Time: 2
+	Training Time: 171.80 s
+	Validation Accuracy: 816 correct out of 1000 (81.60%)
+	Test Accuracy: 778 correct out of 1000 (77.80%)
+Training Data Usage: 20.0%	Random Time: 3
+	Training Time: 171.48 s
+	Validation Accuracy: 820 correct out of 1000 (82.00%)
+	Test Accuracy: 782 correct out of 1000 (78.20%)
+Training Data Usage: 20.0%	Random Time: 4
+	Training Time: 164.29 s
+	Validation Accuracy: 789 correct out of 1000 (78.90%)
+	Test Accuracy: 769 correct out of 1000 (76.90%)
+Accuracy Mean: 77.34%	Accuracy Standard Deviation: 0.00608605
+Training Data Usage: 30.0%	Random Time: 0
+	Training Time: 212.87 s
+	Validation Accuracy: 762 correct out of 1000 (76.20%)
+	Test Accuracy: 720 correct out of 1000 (72.00%)
+Training Data Usage: 30.0%	Random Time: 1
+	Training Time: 215.27 s
+	Validation Accuracy: 820 correct out of 1000 (82.00%)
+	Test Accuracy: 782 correct out of 1000 (78.20%)
+Training Data Usage: 30.0%	Random Time: 2
+	Training Time: 208.37 s
+	Validation Accuracy: 822 correct out of 1000 (82.20%)
+	Test Accuracy: 778 correct out of 1000 (77.80%)
+Training Data Usage: 30.0%	Random Time: 3
+	Training Time: 208.93 s
+	Validation Accuracy: 783 correct out of 1000 (78.30%)
+	Test Accuracy: 772 correct out of 1000 (77.20%)
+Training Data Usage: 30.0%	Random Time: 4
+	Training Time: 210.32 s
+	Validation Accuracy: 784 correct out of 1000 (78.40%)
+	Test Accuracy: 766 correct out of 1000 (76.60%)
+Accuracy Mean: 76.36%	Accuracy Standard Deviation: 0.02246419
+Training Data Usage: 40.0%	Random Time: 0
+	Training Time: 265.14 s
+	Validation Accuracy: 793 correct out of 1000 (79.30%)
+	Test Accuracy: 765 correct out of 1000 (76.50%)
+Training Data Usage: 40.0%	Random Time: 1
+	Training Time: 257.26 s
+	Validation Accuracy: 814 correct out of 1000 (81.40%)
+	Test Accuracy: 785 correct out of 1000 (78.50%)
+Training Data Usage: 40.0%	Random Time: 2
+	Training Time: 257.91 s
+	Validation Accuracy: 825 correct out of 1000 (82.50%)
+	Test Accuracy: 784 correct out of 1000 (78.40%)
+Training Data Usage: 40.0%	Random Time: 3
+	Training Time: 259.77 s
+	Validation Accuracy: 793 correct out of 1000 (79.30%)
+	Test Accuracy: 780 correct out of 1000 (78.00%)
+Training Data Usage: 40.0%	Random Time: 4
+	Training Time: 252.42 s
+	Validation Accuracy: 833 correct out of 1000 (83.30%)
+	Test Accuracy: 800 correct out of 1000 (80.00%)
+Accuracy Mean: 78.28%	Accuracy Standard Deviation: 0.01119643
+Training Data Usage: 50.0%	Random Time: 0
+	Training Time: 301.13 s
+	Validation Accuracy: 835 correct out of 1000 (83.50%)
+	Test Accuracy: 815 correct out of 1000 (81.50%)
+Training Data Usage: 50.0%	Random Time: 1
+	Training Time: 312.84 s
+	Validation Accuracy: 847 correct out of 1000 (84.70%)
+	Test Accuracy: 798 correct out of 1000 (79.80%)
+Training Data Usage: 50.0%	Random Time: 2
+	Training Time: 327.15 s
+	Validation Accuracy: 823 correct out of 1000 (82.30%)
+	Test Accuracy: 801 correct out of 1000 (80.10%)
+Training Data Usage: 50.0%	Random Time: 3
+	Training Time: 314.98 s
+	Validation Accuracy: 840 correct out of 1000 (84.00%)
+	Test Accuracy: 799 correct out of 1000 (79.90%)
+Training Data Usage: 50.0%	Random Time: 4
+	Training Time: 302.10 s
+	Validation Accuracy: 812 correct out of 1000 (81.20%)
+	Test Accuracy: 800 correct out of 1000 (80.00%)
+Accuracy Mean: 80.26%	Accuracy Standard Deviation: 0.00628013
+Training Data Usage: 60.0%	Random Time: 0
+	Training Time: 338.07 s
+	Validation Accuracy: 763 correct out of 1000 (76.30%)
+	Test Accuracy: 733 correct out of 1000 (73.30%)
+Training Data Usage: 60.0%	Random Time: 1
+	Training Time: 344.21 s
+	Validation Accuracy: 840 correct out of 1000 (84.00%)
+	Test Accuracy: 809 correct out of 1000 (80.90%)
+Training Data Usage: 60.0%	Random Time: 2
+	Training Time: 336.48 s
+	Validation Accuracy: 799 correct out of 1000 (79.90%)
+	Test Accuracy: 783 correct out of 1000 (78.30%)
+Training Data Usage: 60.0%	Random Time: 3
+	Training Time: 348.15 s
+	Validation Accuracy: 825 correct out of 1000 (82.50%)
+	Test Accuracy: 809 correct out of 1000 (80.90%)
+Training Data Usage: 60.0%	Random Time: 4
+	Training Time: 340.62 s
+	Validation Accuracy: 818 correct out of 1000 (81.80%)
+	Test Accuracy: 797 correct out of 1000 (79.70%)
+Accuracy Mean: 78.62%	Accuracy Standard Deviation: 0.02827296
+Training Data Usage: 70.0%	Random Time: 0
+	Training Time: 393.83 s
+	Validation Accuracy: 821 correct out of 1000 (82.10%)
+	Test Accuracy: 782 correct out of 1000 (78.20%)
+Training Data Usage: 70.0%	Random Time: 1
+	Training Time: 397.60 s
+	Validation Accuracy: 838 correct out of 1000 (83.80%)
+	Test Accuracy: 815 correct out of 1000 (81.50%)
+Training Data Usage: 70.0%	Random Time: 2
+	Training Time: 376.68 s
+	Validation Accuracy: 822 correct out of 1000 (82.20%)
+	Test Accuracy: 800 correct out of 1000 (80.00%)
+Training Data Usage: 70.0%	Random Time: 3
+	Training Time: 390.68 s
+	Validation Accuracy: 858 correct out of 1000 (85.80%)
+	Test Accuracy: 796 correct out of 1000 (79.60%)
+Training Data Usage: 70.0%	Random Time: 4
+	Training Time: 377.40 s
+	Validation Accuracy: 849 correct out of 1000 (84.90%)
+	Test Accuracy: 809 correct out of 1000 (80.90%)
+Accuracy Mean: 80.04%	Accuracy Standard Deviation: 0.01135958
+Training Data Usage: 80.0%	Random Time: 0
+	Training Time: 422.75 s
+	Validation Accuracy: 846 correct out of 1000 (84.60%)
+	Test Accuracy: 811 correct out of 1000 (81.10%)
+Training Data Usage: 80.0%	Random Time: 1
+	Training Time: 435.89 s
+	Validation Accuracy: 790 correct out of 1000 (79.00%)
+	Test Accuracy: 773 correct out of 1000 (77.30%)
+Training Data Usage: 80.0%	Random Time: 2
+	Training Time: 435.26 s
+	Validation Accuracy: 852 correct out of 1000 (85.20%)
+	Test Accuracy: 817 correct out of 1000 (81.70%)
+Training Data Usage: 80.0%	Random Time: 3
+	Training Time: 428.99 s
+	Validation Accuracy: 832 correct out of 1000 (83.20%)
+	Test Accuracy: 798 correct out of 1000 (79.80%)
+Training Data Usage: 80.0%	Random Time: 4
+	Training Time: 446.33 s
+	Validation Accuracy: 834 correct out of 1000 (83.40%)
+	Test Accuracy: 808 correct out of 1000 (80.80%)
+Accuracy Mean: 80.14%	Accuracy Standard Deviation: 0.01547385
+Training Data Usage: 90.0%	Random Time: 0
+	Training Time: 478.60 s
+	Validation Accuracy: 830 correct out of 1000 (83.00%)
+	Test Accuracy: 787 correct out of 1000 (78.70%)
+Training Data Usage: 90.0%	Random Time: 1
+	Training Time: 465.52 s
+	Validation Accuracy: 794 correct out of 1000 (79.40%)
+	Test Accuracy: 783 correct out of 1000 (78.30%)
+Training Data Usage: 90.0%	Random Time: 2
+	Training Time: 477.67 s
+	Validation Accuracy: 846 correct out of 1000 (84.60%)
+	Test Accuracy: 814 correct out of 1000 (81.40%)
+Training Data Usage: 90.0%	Random Time: 3
+	Training Time: 481.25 s
+	Validation Accuracy: 811 correct out of 1000 (81.10%)
+	Test Accuracy: 767 correct out of 1000 (76.70%)
+Training Data Usage: 90.0%	Random Time: 4
+	Training Time: 491.04 s
+	Validation Accuracy: 823 correct out of 1000 (82.30%)
+	Test Accuracy: 796 correct out of 1000 (79.60%)
+Accuracy Mean: 78.94%	Accuracy Standard Deviation: 0.01547385
+Training Data Usage: 100.0%	Random Time: 0
+	Training Time: 514.38 s
+	Validation Accuracy: 841 correct out of 1000 (84.10%)
+	Test Accuracy: 793 correct out of 1000 (79.30%)
+Training Data Usage: 100.0%	Random Time: 1
+	Training Time: 543.31 s
+	Validation Accuracy: 849 correct out of 1000 (84.90%)
+	Test Accuracy: 813 correct out of 1000 (81.30%)
+Training Data Usage: 100.0%	Random Time: 2
+	Training Time: 544.18 s
+	Validation Accuracy: 831 correct out of 1000 (83.10%)
+	Test Accuracy: 814 correct out of 1000 (81.40%)
+Training Data Usage: 100.0%	Random Time: 3
+	Training Time: 558.87 s
+	Validation Accuracy: 826 correct out of 1000 (82.60%)
+	Test Accuracy: 781 correct out of 1000 (78.10%)
+Training Data Usage: 100.0%	Random Time: 4
+	Training Time: 548.45 s
+	Validation Accuracy: 835 correct out of 1000 (83.50%)
+	Test Accuracy: 820 correct out of 1000 (82.00%)
+Accuracy Mean: 80.42%	Accuracy Standard Deviation: 0.01474313
